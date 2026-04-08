@@ -17,11 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Download the model from HuggingFace at build time
 ARG HF_TOKEN
 RUN mkdir -p models && \
-    python -m huggingface_hub.commands.huggingface_cli download \
-        bartowski/Llama-3.2-3B-Instruct-GGUF \
-        Llama-3.2-3B-Instruct-Q4_K_M.gguf \
-        --local-dir models \
-        --token "$HF_TOKEN"
+    python -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='bartowski/Llama-3.2-3B-Instruct-GGUF', filename='Llama-3.2-3B-Instruct-Q4_K_M.gguf', local_dir='models', token='$HF_TOKEN')"
 
 # Copy application code
 COPY src/ src/
