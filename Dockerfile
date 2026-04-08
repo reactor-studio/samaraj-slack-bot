@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Download the model from HuggingFace at build time
 ARG HF_TOKEN
 RUN mkdir -p models && \
-    huggingface-cli download \
+    python -m huggingface_hub.commands.huggingface_cli download \
         bartowski/Llama-3.2-3B-Instruct-GGUF \
         Llama-3.2-3B-Instruct-Q4_K_M.gguf \
         --local-dir models \
