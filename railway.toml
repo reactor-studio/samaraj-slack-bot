@@ -1,0 +1,11 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[build.args]
+HF_TOKEN = "${{HF_TOKEN}}"
+
+[deploy]
+startCommand = "python -m src.app"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
