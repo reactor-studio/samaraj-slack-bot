@@ -30,6 +30,7 @@ def get_parent_message(client, channel: str, thread_ts: str) -> dict | None:
 
 @app.event("app_mention")
 def handle_mention(event, say, client):
+    logger.info(f"Received mention from user {event.get('user')} in channel {event.get('channel')}")
     thread_ts = event.get("thread_ts")
 
     # Tagged in a top-level message, not a reply
@@ -83,8 +84,10 @@ def handle_dm(event, say, client):
     if not message_text:
         return
 
+    logger.info(f"Received DM from user {event.get('user')}: {message_text[:50]}")
     messages = build_prompt(message_text)
     response = model.generate(messages)
+    logger.info(f"Response generated, sending reply")
 
     say(text=response)
 
