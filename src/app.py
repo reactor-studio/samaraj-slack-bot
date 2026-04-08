@@ -91,7 +91,7 @@ def handle_dm(event, say, client):
 
 def main():
     global model
-    model_path = os.environ.get("MODEL_PATH", "models/llama-3.2-3b-instruct-q4_k_m.gguf")
+    model_path = os.environ.get("MODEL_PATH", "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf")
     logger.info(f"Loading model from {model_path}...")
     model = LlamaModel(model_path=model_path)
     logger.info("Model loaded. Starting Slack bot...")
