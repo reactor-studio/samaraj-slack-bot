@@ -65,6 +65,30 @@ def handle_mention(event, say, client):
     say(text=response, thread_ts=thread_ts)
 
 
+@app.event("message")
+def handle_dm(event, say, client):
+    # Only handle DMs (im channel type)
+    if event.get("channel_type") != "im":
+        return
+
+    # Ignore bot's own messages (prevent loops)
+    bot_user_id = client.auth_test()["user_id"]
+    if event.get("user") == bot_user_id:
+        return
+    # Ignore bot_message subtypes
+    if event.get("subtype") == "bot_message":
+        return
+
+    message_text = event.get("text", "").strip()
+    if not message_text:
+        return
+
+    messages = build_prompt(message_text)
+    response = model.generate(messages)
+
+    say(text=response)
+
+
 def main():
     global model
     model_path = os.environ.get("MODEL_PATH", "models/llama-3.2-3b-instruct-q4_k_m.gguf")
